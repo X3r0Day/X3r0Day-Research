@@ -8,9 +8,10 @@ VS Code's Python extension checks your virtual environment when you open a proje
 cd VSCode
 bash setup_poc.sh
 code .
+cat src/hacked
 ```
 
-Check /tmp/pwned. If it exists, the code ran.
+
 
 ### 2. Git core.fsmonitor config poisoning
 
