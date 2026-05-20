@@ -1,6 +1,0 @@
-[project]
-name = "obf"
-version = "0.1.0"
-description = "Obfuscation Toolkit"
-requires-python = ">=3.10"
-dependencies = []
